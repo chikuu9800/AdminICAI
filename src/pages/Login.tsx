@@ -29,10 +29,10 @@ const Login = () => {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <FileSpreadsheet className="h-7 w-7" />
+          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-lg bg-white text-primary-foreground">
+            <img src="/Images/logo.png" alt="" />
           </div>
-          <CardTitle className="text-2xl">DTC & CITAX CMS</CardTitle>
+          <CardTitle className="text-2xl">ICAI</CardTitle>
           <CardDescription>
             Sign in to access the admin panel
           </CardDescription>

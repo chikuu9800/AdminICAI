@@ -115,3 +115,15 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/Fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+}

@@ -1,11 +1,11 @@
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Calendar, 
-  Users, 
-  FileSpreadsheet, 
-  MessageSquare, 
-  Menu as MenuIcon, 
+import {
+  LayoutDashboard,
+  FileText,
+  Calendar,
+  Users,
+  FileSpreadsheet,
+  MessageSquare,
+  Menu as MenuIcon,
   ClipboardList,
   Settings,
   BarChart3,
@@ -43,7 +43,7 @@ export function AdminSidebar() {
   const { open } = useSidebar();
   const { user, logout } = useAuth();
 
-  const filteredItems = menuItems.filter(item => 
+  const filteredItems = menuItems.filter(item =>
     user && item.roles.includes(user.role)
   );
 
@@ -51,12 +51,13 @@ export function AdminSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <FileSpreadsheet className="h-5 w-5" />
+          <div className="flex h-10 w-12 items-center justify-center rounded-lg bg-white text-primary-foreground">
+            <img src="/Images/logo.png" alt="" />
+
           </div>
           {open && (
             <div>
-              <p className="text-sm font-semibold text-sidebar-foreground">DTC & CITAX</p>
+              <p className="text-sm font-semibold text-sidebar-foreground">ICAI</p>
               <p className="text-xs text-muted-foreground">CMS Admin</p>
             </div>
           )}
@@ -71,8 +72,8 @@ export function AdminSidebar() {
               {filteredItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
+                    <NavLink
+                      to={item.url}
                       end={item.url === "/admin"}
                       className="hover:bg-sidebar-accent"
                       activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
@@ -95,8 +96,8 @@ export function AdminSidebar() {
             <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
           </div>
         )}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           size={open ? "default" : "icon"}
           onClick={logout}
           className="w-full"
