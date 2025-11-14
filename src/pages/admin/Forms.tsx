@@ -18,7 +18,6 @@ import { toast } from "sonner";
 
 const Forms = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editForm, setEditForm] = useState<any>(null);
@@ -48,12 +47,7 @@ const Forms = () => {
   const handleAddForm = () => {
     toast.success("Form created successfully!");
     setShowAddModal(false);
-
-    setNewForm({
-      title: "",
-      description: "",
-      status: "active",
-    });
+    setNewForm({ title: "", description: "", status: "active" });
   };
 
   const handleEdit = (form: any) => {
@@ -68,7 +62,7 @@ const Forms = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 md:px-0 max-w-screen-xl mx-auto">
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <div>
@@ -98,8 +92,8 @@ const Forms = () => {
           </div>
         </CardHeader>
 
-        <CardContent>
-          <Table>
+        <CardContent className="overflow-x-auto">
+          <Table className="min-w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
@@ -115,9 +109,11 @@ const Forms = () => {
               {filteredForms.map((form) => (
                 <TableRow key={form.id}>
                   <TableCell className="font-medium">{form.title}</TableCell>
-                  <TableCell className="max-w-xs truncate text-muted-foreground">
+
+                  <TableCell className="truncate max-w-[220px] text-muted-foreground">
                     {form.description}
                   </TableCell>
+
                   <TableCell>
                     <Badge variant={form.status === "active" ? "default" : "secondary"}>
                       {form.status}
@@ -135,8 +131,8 @@ const Forms = () => {
                     {form.createdAt}
                   </TableCell>
 
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
+                  <TableCell className="">
+                    <div className="flex justify-start gap-1">
 
                       <Button variant="ghost" size="icon" onClick={() => handleEdit(form)}>
                         <Edit className="h-4 w-4" />
@@ -158,9 +154,9 @@ const Forms = () => {
                       <Button variant="ghost" size="icon" onClick={() => handleDelete(form.id)}>
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
+
                     </div>
                   </TableCell>
-
                 </TableRow>
               ))}
             </TableBody>
@@ -168,7 +164,7 @@ const Forms = () => {
         </CardContent>
       </Card>
 
-      {/* ---------------- ADD FORM MODAL ---------------- */}
+      {/* ADD FORM MODAL */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-xl w-full max-w-lg relative shadow-lg">
@@ -199,11 +195,10 @@ const Forms = () => {
         </div>
       )}
 
-      {/* ---------------- EDIT FORM MODAL ---------------- */}
+      {/* EDIT FORM MODAL */}
       {showEditModal && editForm && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-xl w-full max-w-lg relative shadow-lg">
-
             <button className="absolute top-3 right-3" onClick={() => setShowEditModal(false)}>
               <X className="h-5 w-5 text-gray-600" />
             </button>
@@ -227,7 +222,6 @@ const Forms = () => {
             <Button className="w-full" onClick={handleSaveEdit}>
               Save Changes
             </Button>
-
           </div>
         </div>
       )}
