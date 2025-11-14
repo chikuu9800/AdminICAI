@@ -20,8 +20,49 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { mockContent } from "@/lib/mockData";
 import { Plus, Search, Eye, Edit, Trash2, X } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const modules = {
+  toolbar: [
+    // Text Formatting
+    ["bold", "italic", "underline", "strike"],
+
+    // Font size, type, color
+    [{ size: ["small", false, "large", "huge"] }],
+    [{ font: [] }],
+    [{ color: [] }, { background: [] }],
+
+    // Alignment
+    [{ align: [] }],
+
+    // Lists
+    [{ list: "ordered" }, { list: "bullet" }],
+
+    // Indent
+    [{ indent: "-1" }, { indent: "+1" }],
+
+    // Line height (via custom style)
+    [{ lineheight: ["1", "1.5", "2", "2.5", "3"] }],
+
+    // Insert
+    ["link", "image", "video"],
+
+    // Undo/Redo
+    ["clean"],
+  ],
+};
+
+const formats = [
+  "bold", "italic", "underline", "strike",
+  "size", "font", "color", "background",
+  "align",
+  "list", "bullet",
+  "indent",
+  "lineheight",
+  "link", "image", "video",
+];
 
 const Content = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -194,12 +235,9 @@ const Content = () => {
         </CardContent>
       </Card>
 
-      {/* ============================
-          ADD CONTENT MODAL
-      ============================= */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-xl relative">
+          <div className="bg-white rounded-xl w-full max-w-3xl p-6 shadow-xl relative">
 
             {/* Close Icon */}
             <button
@@ -209,12 +247,12 @@ const Content = () => {
               <X className="h-5 w-5" />
             </button>
 
-            <h2 className="text-xl font-semibold mb-4">Create New Content</h2>
+            <h2 className="text-2xl font-semibold mb-5">Create New Content</h2>
 
             {/* Title */}
             <Input
               placeholder="Enter title"
-              className="mb-3"
+              className="mb-4"
               value={newContent.title}
               onChange={(e) =>
                 setNewContent({ ...newContent, title: e.target.value })
@@ -224,7 +262,7 @@ const Content = () => {
             {/* Category */}
             <Input
               placeholder="Category"
-              className="mb-3"
+              className="mb-4"
               value={newContent.category}
               onChange={(e) =>
                 setNewContent({ ...newContent, category: e.target.value })
@@ -238,7 +276,7 @@ const Content = () => {
                 setNewContent({ ...newContent, status: value })
               }
             >
-              <SelectTrigger className="w-full mb-3">
+              <SelectTrigger className="w-full mb-4">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -249,19 +287,23 @@ const Content = () => {
             </Select>
 
             {/* Content Body */}
-            <Textarea
-              placeholder="Write content details..."
-              className="mb-3"
-              value={newContent.body}
-              onChange={(e) =>
-                setNewContent({ ...newContent, body: e.target.value })
-              }
-            />
+            <div className="mb-4">
+              <ReactQuill
+                theme="snow"
+                value={newContent.body}
+                onChange={(value) =>
+                  setNewContent({ ...newContent, body: value })
+                }
+                className="h-[300px]"
+                modules={modules}
+                formats={formats}
+              />
+            </div>
 
             {/* Thumbnail */}
             <Input
               type="file"
-              className="mb-3"
+              className="mb-4"
               onChange={(e) =>
                 setNewContent({
                   ...newContent,
@@ -271,11 +313,8 @@ const Content = () => {
             />
 
             {/* Buttons */}
-            <div className="flex justify-end gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowModal(false)}
-              >
+            <div className="flex justify-end gap-2 mt-2">
+              <Button variant="outline" onClick={() => setShowModal(false)}>
                 Cancel
               </Button>
               <Button onClick={handleCreateContent}>Create</Button>
@@ -284,12 +323,9 @@ const Content = () => {
           </div>
         </div>
       )}
-      {/* ============================
-        EDIT CONTENT MODAL
-============================= */}
       {editModal && editData && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-xl relative">
+          <div className="bg-white rounded-xl w-full max-w-3xl p-6 shadow-xl relative">
 
             {/* Close Icon */}
             <button
@@ -299,22 +335,26 @@ const Content = () => {
               <X className="h-5 w-5" />
             </button>
 
-            <h2 className="text-xl font-semibold mb-4">Edit Content</h2>
+            <h2 className="text-2xl font-semibold mb-5">Edit Content</h2>
 
             {/* Title */}
             <Input
               placeholder="Enter title"
-              className="mb-3"
+              className="mb-4"
               value={editData.title}
-              onChange={(e) => setEditData({ ...editData, title: e.target.value })}
+              onChange={(e) =>
+                setEditData({ ...editData, title: e.target.value })
+              }
             />
 
             {/* Category */}
             <Input
               placeholder="Category"
-              className="mb-3"
+              className="mb-4"
               value={editData.category}
-              onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+              onChange={(e) =>
+                setEditData({ ...editData, category: e.target.value })
+              }
             />
 
             {/* Status */}
@@ -324,7 +364,7 @@ const Content = () => {
                 setEditData({ ...editData, status: value })
               }
             >
-              <SelectTrigger className="w-full mb-3">
+              <SelectTrigger className="w-full mb-4">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -335,19 +375,23 @@ const Content = () => {
             </Select>
 
             {/* Content Body */}
-            <Textarea
-              placeholder="Write content details..."
-              className="mb-3"
-              value={editData.body}
-              onChange={(e) =>
-                setEditData({ ...editData, body: e.target.value })
-              }
-            />
+            <div className="mb-4">
+              <ReactQuill
+                theme="snow"
+                value={editData.body}
+                onChange={(value) =>
+                  setEditData({ ...editData, body: value })
+                }
+                className="h-[300px]"
+                modules={modules}
+                formats={formats}
+              />
+            </div>
 
             {/* Thumbnail */}
             <Input
               type="file"
-              className="mb-3"
+              className="mb-4"
               onChange={(e) =>
                 setEditData({
                   ...editData,
@@ -357,11 +401,8 @@ const Content = () => {
             />
 
             {/* Buttons */}
-            <div className="flex justify-end gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setEditModal(false)}
-              >
+            <div className="flex justify-end gap-2 mt-2">
+              <Button variant="outline" onClick={() => setEditModal(false)}>
                 Cancel
               </Button>
 
@@ -371,6 +412,7 @@ const Content = () => {
           </div>
         </div>
       )}
+
 
     </div>
   );
