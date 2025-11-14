@@ -14,9 +14,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { mockDiscussions } from "@/lib/mockData";
 import { Search, MessageSquare, CheckCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
+
 
 const Discussions = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDiscussion, setSelectedDiscussion] = useState<any>(null);
+
+  
 
   const filteredDiscussions = mockDiscussions.filter(discussion =>
     discussion.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -133,11 +145,11 @@ const Discussions = () => {
                   </TableCell>
                   <TableCell className="text-muted-foreground">{discussion.askedBy}</TableCell>
                   <TableCell>
-                    <Badge 
+                    <Badge
                       variant={
-                        discussion.status === 'resolved' ? 'default' : 
-                        discussion.status === 'answered' ? 'secondary' : 
-                        'outline'
+                        discussion.status === 'resolved' ? 'default' :
+                          discussion.status === 'answered' ? 'secondary' :
+                            'outline'
                       }
                     >
                       {discussion.status}
@@ -149,8 +161,8 @@ const Discussions = () => {
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       {discussion.status === 'pending' && (
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           size="sm"
                           onClick={() => handleAssign(discussion.id)}
                         >
@@ -158,16 +170,17 @@ const Discussions = () => {
                         </Button>
                       )}
                       {discussion.status === 'answered' && (
-                        <Button 
+                        <Button
                           size="sm"
                           onClick={() => handleApprove(discussion.id)}
                         >
                           Approve
                         </Button>
                       )}
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => setSelectedDiscussion(discussion)}>
                         View
                       </Button>
+
                     </div>
                   </TableCell>
                 </TableRow>
@@ -176,6 +189,92 @@ const Discussions = () => {
           </Table>
         </CardContent>
       </Card>
+{/* VIEW MODAL */}
+<Dialog open={!!selectedDiscussion} onOpenChange={() => setSelectedDiscussion(null)}>
+  <DialogContent className="max-w-2xl rounded-xl">
+    {selectedDiscussion && (
+      <div className="space-y-4">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-semibold">
+            {selectedDiscussion.title}
+          </DialogTitle>
+          <DialogDescription>
+            Detailed query information
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* META INFO */}
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p className="text-muted-foreground">Category</p>
+            <p className="font-medium">{selectedDiscussion.category}</p>
+          </div>
+
+          <div>
+            <p className="text-muted-foreground">Asked By</p>
+            <p className="font-medium">{selectedDiscussion.askedBy}</p>
+          </div>
+
+          <div>
+            <p className="text-muted-foreground">Status</p>
+            <Badge
+              variant={
+                selectedDiscussion.status === "resolved"
+                  ? "default"
+                  : selectedDiscussion.status === "answered"
+                  ? "secondary"
+                  : "outline"
+              }
+            >
+              {selectedDiscussion.status}
+            </Badge>
+          </div>
+
+          <div>
+            <p className="text-muted-foreground">Pending Days</p>
+            <p className="font-medium">
+              {selectedDiscussion.pendingDays > 0
+                ? `${selectedDiscussion.pendingDays} days`
+                : "-"}
+            </p>
+          </div>
+        </div>
+
+        {/* DESCRIPTION */}
+        <div>
+          <p className="text-muted-foreground mb-1">Query Description</p>
+          <p className="p-3 rounded-md bg-muted text-sm leading-relaxed">
+            {selectedDiscussion.description || "No description provided."}
+          </p>
+        </div>
+
+        {/* ANSWER */}
+        {selectedDiscussion.answer && (
+          <div>
+            <p className="text-muted-foreground mb-1">Expert Answer</p>
+            <p className="p-3 rounded-md bg-green-50 dark:bg-green-950 text-sm leading-relaxed">
+              {selectedDiscussion.answer}
+            </p>
+          </div>
+        )}
+
+        {/* MODAL ACTIONS */}
+        <div className="flex justify-end gap-2 pt-2">
+          <Button variant="outline" onClick={() => setSelectedDiscussion(null)}>
+            Close
+          </Button>
+
+          {selectedDiscussion.status === "answered" && (
+            <Button onClick={() => handleApprove(selectedDiscussion.id)}>
+              Approve
+            </Button>
+          )}
+        </div>
+      </div>
+    )}
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };
