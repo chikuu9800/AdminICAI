@@ -214,6 +214,25 @@ const Content = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => {
+                          if (confirm("Are you sure you want to post this content to Twitter?")) {
+                            handlePostToTwitter(content);
+                          }
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 text-white-500"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.24 4.24 0 001.88-2.34 8.28 8.28 0 01-2.67 1.02A4.15 4.15 0 0015.5 4c-2.32 0-4.2 1.88-4.2 4.2 0 .33.04.65.1.96A11.8 11.8 0 013 5.15a4.18 4.18 0 00-.57 2.1c0 1.45.74 2.72 1.86 3.46a4.2 4.2 0 01-1.9-.52v.05c0 2.03 1.45 3.73 3.37 4.12a4.3 4.3 0 01-1.89.07c.53 1.65 2.08 2.85 3.9 2.88A8.33 8.33 0 012 19.54 11.77 11.77 0 008.29 21c7.55 0 11.68-6.26 11.68-11.68l-.01-.53A8.18 8.18 0 0022.46 6z" />
+                        </svg>
+                      </Button>
+                      {/* Edit */}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
                           setEditData(content);
                           setEditModal(true);
                         }}
@@ -221,12 +240,17 @@ const Content = () => {
                         <Edit className="h-4 w-4" />
                       </Button>
 
+                      {/* Post to Twitter */}
 
+
+                      {/* Delete */}
                       <Button size="icon" variant="ghost">
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
+
                     </div>
                   </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
@@ -237,83 +261,89 @@ const Content = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl w-full max-w-3xl p-6 shadow-xl relative">
+          <div className="bg-white rounded-xl w-full max-w-3xl shadow-xl relative max-h-[85vh] overflow-y-auto">
 
-            {/* Close Icon */}
-            <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-black"
-              onClick={() => setShowModal(false)}
-            >
-              <X className="h-5 w-5" />
-            </button>
+            {/* Header */}
+            <div className="sticky top-0 bg-white p-6 border-b rounded-t-xl z-10">
+              <h2 className="text-2xl font-semibold">Create New Content</h2>
 
-            <h2 className="text-2xl font-semibold mb-5">Create New Content</h2>
-
-            {/* Title */}
-            <Input
-              placeholder="Enter title"
-              className="mb-4"
-              value={newContent.title}
-              onChange={(e) =>
-                setNewContent({ ...newContent, title: e.target.value })
-              }
-            />
-
-            {/* Category */}
-            <Input
-              placeholder="Category"
-              className="mb-4"
-              value={newContent.category}
-              onChange={(e) =>
-                setNewContent({ ...newContent, category: e.target.value })
-              }
-            />
-
-            {/* Status */}
-            <Select
-              value={newContent.status}
-              onValueChange={(value) =>
-                setNewContent({ ...newContent, status: value })
-              }
-            >
-              <SelectTrigger className="w-full mb-4">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="unpublished">Unpublished</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Content Body */}
-            <div className="mb-4">
-              <ReactQuill
-                theme="snow"
-                value={newContent.body}
-                onChange={(value) =>
-                  setNewContent({ ...newContent, body: value })
-                }
-                className="h-[300px]"
-                modules={modules}
-                formats={formats}
-              />
+              <button
+                className="absolute top-4 right-4 text-gray-500 hover:text-black"
+                onClick={() => setShowModal(false)}
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
-            {/* Thumbnail */}
-            <Input
-              type="file"
-              className="mb-4"
-              onChange={(e) =>
-                setNewContent({
-                  ...newContent,
-                  thumbnail: e.target.files?.[0] || null,
-                })
-              }
-            />
+            {/* Body */}
+            <div className="p-6 space-y-4">
+              <Input
+                placeholder="Enter title"
+                value={newContent.title}
+                onChange={(e) => setNewContent({ ...newContent, title: e.target.value })}
+              />
 
-            {/* Buttons */}
-            <div className="flex justify-end gap-2 mt-2">
+              <Input
+                placeholder="Category"
+                value={newContent.category}
+                onChange={(e) => setNewContent({ ...newContent, category: e.target.value })}
+              />
+
+              {/* Status */}
+              <Select
+                value={newContent.status}
+                onValueChange={(value) => setNewContent({ ...newContent, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="unpublished">Unpublished</SelectItem>
+                </SelectContent>
+              </Select>
+
+
+
+              {/* Banner / Thumbnail */}
+              <div>
+                <label className="text-sm font-medium">Banner Image</label>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setNewContent({ ...newContent, thumbnail: e.target.files?.[0] || null })
+                  }
+                />
+              </div>
+
+              {/* PDF */}
+              <div>
+                <label className="text-sm font-medium">PDF Attachment</label>
+                <Input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) =>
+                    setNewContent({ ...newContent, pdf: e.target.files?.[0] || null })
+                  }
+                />
+              </div>
+              {/* HTML Body */}
+              <div>
+                <ReactQuill
+                  theme="snow"
+                  value={newContent.body}
+                  onChange={(value) => setNewContent({ ...newContent, body: value })}
+                  className="h-[300px] mb-10"
+                  modules={modules}
+                  formats={formats}
+                />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="sticky bottom-0 bg-white p-4 border-t rounded-b-xl flex justify-end gap-2">
               <Button variant="outline" onClick={() => setShowModal(false)}>
                 Cancel
               </Button>
@@ -323,85 +353,92 @@ const Content = () => {
           </div>
         </div>
       )}
+
       {editModal && editData && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-xl w-full max-w-3xl p-6 shadow-xl relative">
+          <div className="bg-white rounded-xl w-full max-w-3xl shadow-xl relative max-h-[85vh] overflow-y-auto">
 
-            {/* Close Icon */}
-            <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-black"
-              onClick={() => setEditModal(false)}
-            >
-              <X className="h-5 w-5" />
-            </button>
+            {/* Header */}
+            <div className="sticky top-0 bg-white p-6 border-b rounded-t-xl z-10">
+              <h2 className="text-2xl font-semibold">Edit Content</h2>
 
-            <h2 className="text-2xl font-semibold mb-5">Edit Content</h2>
+              <button
+                className="absolute top-4 right-4 text-gray-500 hover:text-black"
+                onClick={() => setEditModal(false)}
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
-            {/* Title */}
-            <Input
-              placeholder="Enter title"
-              className="mb-4"
-              value={editData.title}
-              onChange={(e) =>
-                setEditData({ ...editData, title: e.target.value })
-              }
-            />
+            {/* Body */}
+            <div className="p-6 space-y-4">
+              {/* Title */}
+              <Input
+                placeholder="Enter title"
+                value={editData.title}
+                onChange={(e) => setEditData({ ...editData, title: e.target.value })}
+              />
 
-            {/* Category */}
-            <Input
-              placeholder="Category"
-              className="mb-4"
-              value={editData.category}
-              onChange={(e) =>
-                setEditData({ ...editData, category: e.target.value })
-              }
-            />
+              {/* Category */}
+              <Input
+                placeholder="Category"
+                value={editData.category}
+                onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+              />
 
-            {/* Status */}
-            <Select
-              value={editData.status}
-              onValueChange={(value) =>
-                setEditData({ ...editData, status: value })
-              }
-            >
-              <SelectTrigger className="w-full mb-4">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="unpublished">Unpublished</SelectItem>
-              </SelectContent>
-            </Select>
+              {/* Status */}
+              <Select
+                value={editData.status}
+                onValueChange={(value) => setEditData({ ...editData, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="unpublished">Unpublished</SelectItem>
+                </SelectContent>
+              </Select>
 
-            {/* Content Body */}
-            <div className="mb-4">
+              {/* Content Body */}
+
+              {/* Banner / Thumbnail */}
+              <div>
+                <label className="text-sm font-medium">Banner Image</label>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setEditData({ ...editData, thumbnail: e.target.files?.[0] || null })
+                  }
+                />
+              </div>
+
+              {/* PDF */}
+              <div>
+                <label className="text-sm font-medium">PDF Attachment</label>
+                <Input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) =>
+                    setEditData({ ...editData, pdf: e.target.files?.[0] || null })
+                  }
+                />
+              </div>
               <ReactQuill
                 theme="snow"
                 value={editData.body}
-                onChange={(value) =>
-                  setEditData({ ...editData, body: value })
-                }
-                className="h-[300px]"
+                onChange={(value) => setEditData({ ...editData, body: value })}
+                className="h-[300px] mb-10"
                 modules={modules}
                 formats={formats}
               />
+
             </div>
 
-            {/* Thumbnail */}
-            <Input
-              type="file"
-              className="mb-4"
-              onChange={(e) =>
-                setEditData({
-                  ...editData,
-                  thumbnail: e.target.files?.[0] || null,
-                })
-              }
-            />
-
-            {/* Buttons */}
-            <div className="flex justify-end gap-2 mt-2">
+            {/* Footer */}
+            <div className="sticky bottom-0 bg-white p-4 border-t rounded-b-xl flex justify-end gap-2">
               <Button variant="outline" onClick={() => setEditModal(false)}>
                 Cancel
               </Button>
