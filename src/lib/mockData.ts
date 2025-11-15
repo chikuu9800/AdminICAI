@@ -69,18 +69,21 @@ export const mockContent: Content[] = [
 ];
 
 export const mockEvents: Event[] = [
-  { 
+  {
     id: '1',
     title: 'National Tax Summit 2025',
     description: 'Annual conference discussing latest tax reforms and policies',
     location: 'New Delhi Convention Center',
     startDate: '2025-02-15',
     endDate: '2025-02-17',
+    startTime: '15:00',   // 03:00 PM
+    endTime: '17:00',     // 05:00 PM
     speaker: 'CA. Rajesh Kumar',
     registrationLink: 'https://icai.org/register/summit2025',
+    liveStreamLink: 'https://youtube.com/live/national-tax-summit',
+    banner: null,
     status: 'upcoming',
 
-    // NEW FIELD ADDED
     registrations: [
       { name: "Amit Sharma", email: "amit@example.com", phone: "9876543210" },
       { name: "Priya Nair", email: "priya@example.com", phone: "9123456780" },
@@ -88,39 +91,45 @@ export const mockEvents: Event[] = [
     ]
   },
 
-  { 
+  {
     id: '2',
     title: 'GST Updates Workshop',
     description: 'Interactive workshop on recent GST amendments',
     location: 'Mumbai',
     startDate: '2025-01-20',
     endDate: '2025-01-20',
+    startTime: '11:00',   // 11:00 AM
+    endTime: '13:00',     // 01:00 PM
     speaker: 'CA. Priya Sharma',
     registrationLink: 'https://icai.org/register/gst-workshop',
+    liveStreamLink: 'https://youtube.com/live/gst-updates',
+    banner: null,
     status: 'upcoming',
 
-    // NEW FIELD ADDED
     registrations: [
       { name: "John Mathew", email: "john@example.com", phone: "9898989898" },
       { name: "Rina Shah", email: "rina@example.com", phone: "9090909090" }
     ]
   },
 
-  { 
+  {
     id: '3',
     title: 'Digital Taxation Webinar',
     description: 'Online webinar on digital economy taxation',
     location: 'Online',
     startDate: '2025-01-12',
     endDate: '2025-01-12',
+    startTime: '16:00',   // 04:00 PM
+    endTime: '17:00',     // 05:00 PM
     speaker: 'CA. Amit Verma',
+    registrationLink: 'https://icai.org/register/digital-taxation',
+    liveStreamLink: 'https://youtube.com/live/digital-taxation',
+    banner: null,
     status: 'completed',
 
-    // NEW FIELD ADDED
     registrations: []
   }
 ];
-
 
 export const mockForms: Form[] = [
   { id: '1', title: 'Member Feedback Survey 2025', description: 'Annual member satisfaction survey', status: 'active', responses: 145, createdAt: '2025-01-01' },
