@@ -53,7 +53,7 @@ const Events = () => {
     setSelectedRegistrations(event.registrations || []);
     setShowRegModal(true);
   };
-  
+
 
   /** Add Event */
   const handleAddEvent = () => {
@@ -204,178 +204,261 @@ const Events = () => {
       {/* -------------------- ADD EVENT MODAL -------------------- */}
       {addModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4 z-50">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg relative">
-            <button className="absolute top-3 right-3" onClick={() => setAddModal(false)}>
-              <X className="h-5 w-5 text-gray-600" />
-            </button>
+          <div className="bg-white rounded-xl w-full max-w-lg shadow-xl relative max-h-[85vh] overflow-y-auto">
 
-            <h2 className="text-xl font-semibold mb-4">Add New Event</h2>
-
-            <Input
-              placeholder="Title"
-              className="mb-3"
-              value={newEvent.title}
-              onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-            />
-
-            <Textarea
-              placeholder="Description"
-              className="mb-3"
-              value={newEvent.description}
-              onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-            />
-
-            <Input
-              placeholder="Location"
-              className="mb-3"
-              value={newEvent.location}
-              onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-            />
-
-            <Input
-              placeholder="Speaker"
-              className="mb-3"
-              value={newEvent.speaker}
-              onChange={(e) => setNewEvent({ ...newEvent, speaker: e.target.value })}
-            />
-
-            <div className="flex gap-3">
-              <Input
-                type="date"
-                className="mb-3 flex-1"
-                value={newEvent.startDate}
-                onChange={(e) => setNewEvent({ ...newEvent, startDate: e.target.value })}
-              />
-
-              <Input
-                type="date"
-                className="mb-3 flex-1"
-                value={newEvent.endDate}
-                onChange={(e) => setNewEvent({ ...newEvent, endDate: e.target.value })}
-              />
+            {/* Header */}
+            <div className="sticky top-0 bg-white p-6 border-b rounded-t-xl z-10">
+              <h2 className="text-xl font-semibold">Add New Event</h2>
+              <button className="absolute top-4 right-4" onClick={() => setAddModal(false)}>
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
             </div>
 
-            <Input
-              placeholder="Registration Link"
-              className="mb-3"
-              value={newEvent.registrationLink}
-              onChange={(e) => setNewEvent({ ...newEvent, registrationLink: e.target.value })}
-            />
+            {/* Body */}
+            <div className="p-6 space-y-3">
 
-            <Input
-              type="file"
-              className="mb-3"
-              onChange={(e) => setNewEvent({ ...newEvent, banner: e.target.files?.[0] })}
-            />
+              <label className="text-sm font-medium text-gray-700">Title</label>
+              <Input
+                value={newEvent.title}
+                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+              />
 
-            <Select
-              value={newEvent.status}
-              onValueChange={(value) => setNewEvent({ ...newEvent, status: value })}
-            >
-              <SelectTrigger className="mb-3">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="upcoming">Upcoming</SelectItem>
-                <SelectItem value="ongoing">Ongoing</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-              </SelectContent>
-            </Select>
+              <label className="text-sm font-medium text-gray-700">Description</label>
+              <Textarea
+                value={newEvent.description}
+                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+              />
 
-            <Button className="w-full mt-2" onClick={handleAddEvent}>
-              Add Event
-            </Button>
+              <label className="text-sm font-medium text-gray-700">Location</label>
+              <Input
+                value={newEvent.location}
+                onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Speaker</label>
+              <Input
+                value={newEvent.speaker}
+                onChange={(e) => setNewEvent({ ...newEvent, speaker: e.target.value })}
+              />
+
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">Start Date</label>
+                  <Input
+                    type="date"
+                    value={newEvent.startDate}
+                    onChange={(e) => setNewEvent({ ...newEvent, startDate: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">End Date</label>
+                  <Input
+                    type="date"
+                    value={newEvent.endDate}
+                    onChange={(e) => setNewEvent({ ...newEvent, endDate: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">Start Time</label>
+                  <Input
+                    type="time"
+                    value={newEvent.startTime}
+                    onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">End Time</label>
+                  <Input
+                    type="time"
+                    value={newEvent.endTime}
+                    onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <label className="text-sm font-medium text-gray-700">Registration Link</label>
+              <Input
+                value={newEvent.registrationLink}
+                onChange={(e) => setNewEvent({ ...newEvent, registrationLink: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Live Stream Link</label>
+              <Input
+                value={newEvent.liveStreamLink}
+                onChange={(e) => setNewEvent({ ...newEvent, liveStreamLink: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Banner Image</label>
+              <Input
+                type="file"
+                onChange={(e) => setNewEvent({ ...newEvent, banner: e.target.files?.[0] })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Status</label>
+              <Select
+                value={newEvent.status}
+                onValueChange={(value) => setNewEvent({ ...newEvent, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="ongoing">Ongoing</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+
+            </div>
+
+            {/* Footer */}
+            <div className="sticky bottom-0 bg-white p-4 border-t rounded-b-xl">
+              <Button className="w-full mt-1" onClick={handleAddEvent}>
+                Add Event
+              </Button>
+            </div>
+
           </div>
         </div>
       )}
+
+
+
+
 
       {/* -------------------- EDIT EVENT MODAL -------------------- */}
       {editModal && editEvent && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4 z-50">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg relative">
-            <button className="absolute top-3 right-3" onClick={() => setEditModal(false)}>
-              <X className="h-5 w-5 text-gray-600" />
-            </button>
+          <div className="bg-white rounded-xl w-full max-w-lg shadow-xl relative max-h-[85vh] overflow-y-auto">
 
-            <h2 className="text-xl font-semibold mb-4">Edit Event</h2>
-
-            <Input
-              placeholder="Title"
-              className="mb-3"
-              value={editEvent.title}
-              onChange={(e) => setEditEvent({ ...editEvent, title: e.target.value })}
-            />
-
-            <Textarea
-              placeholder="Description"
-              className="mb-3"
-              value={editEvent.description}
-              onChange={(e) => setEditEvent({ ...editEvent, description: e.target.value })}
-            />
-
-            <Input
-              placeholder="Location"
-              className="mb-3"
-              value={editEvent.location}
-              onChange={(e) => setEditEvent({ ...editEvent, location: e.target.value })}
-            />
-
-            <Input
-              placeholder="Speaker"
-              className="mb-3"
-              value={editEvent.speaker}
-              onChange={(e) => setEditEvent({ ...editEvent, speaker: e.target.value })}
-            />
-
-            <div className="flex gap-3">
-              <Input
-                type="date"
-                className="mb-3 flex-1"
-                value={editEvent.startDate}
-                onChange={(e) => setEditEvent({ ...editEvent, startDate: e.target.value })}
-              />
-
-              <Input
-                type="date"
-                className="mb-3 flex-1"
-                value={editEvent.endDate}
-                onChange={(e) => setEditEvent({ ...editEvent, endDate: e.target.value })}
-              />
+            {/* Header */}
+            <div className="sticky top-0 bg-white p-6 border-b rounded-t-xl z-10">
+              <h2 className="text-xl font-semibold">Edit Event</h2>
+              <button className="absolute top-4 right-4" onClick={() => setEditModal(false)}>
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
             </div>
 
-            <Input
-              placeholder="Registration Link"
-              className="mb-3"
-              value={editEvent.registrationLink}
-              onChange={(e) => setEditEvent({ ...editEvent, registrationLink: e.target.value })}
-            />
+            {/* Body */}
+            <div className="p-6 space-y-3">
 
-            <Input
-              type="file"
-              className="mb-3"
-              onChange={(e) => setEditEvent({ ...editEvent, banner: e.target.files?.[0] })}
-            />
+              <label className="text-sm font-medium text-gray-700">Title</label>
+              <Input
+                value={editEvent.title}
+                onChange={(e) => setEditEvent({ ...editEvent, title: e.target.value })}
+              />
 
-            <Select
-              value={editEvent.status}
-              onValueChange={(value) => setEditEvent({ ...editEvent, status: value })}
-            >
-              <SelectTrigger className="mb-3">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="upcoming">Upcoming</SelectItem>
-                <SelectItem value="ongoing">Ongoing</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-              </SelectContent>
-            </Select>
+              <label className="text-sm font-medium text-gray-700">Description</label>
+              <Textarea
+                value={editEvent.description}
+                onChange={(e) => setEditEvent({ ...editEvent, description: e.target.value })}
+              />
 
-            <Button className="w-full mt-2" onClick={handleSaveEdit}>
-              Save Changes
-            </Button>
+              <label className="text-sm font-medium text-gray-700">Location</label>
+              <Input
+                value={editEvent.location}
+                onChange={(e) => setEditEvent({ ...editEvent, location: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Speaker</label>
+              <Input
+                value={editEvent.speaker}
+                onChange={(e) => setEditEvent({ ...editEvent, speaker: e.target.value })}
+              />
+
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">Start Date</label>
+                  <Input
+                    type="date"
+                    value={editEvent.startDate}
+                    onChange={(e) => setEditEvent({ ...editEvent, startDate: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">End Date</label>
+                  <Input
+                    type="date"
+                    value={editEvent.endDate}
+                    onChange={(e) => setEditEvent({ ...editEvent, endDate: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">Start Time</label>
+                  <Input
+                    type="time"
+                    value={editEvent.startTime}
+                    onChange={(e) => setEditEvent({ ...editEvent, startTime: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">End Time</label>
+                  <Input
+                    type="time"
+                    value={editEvent.endTime}
+                    onChange={(e) => setEditEvent({ ...editEvent, endTime: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <label className="text-sm font-medium text-gray-700">Registration Link</label>
+              <Input
+                value={editEvent.registrationLink}
+                onChange={(e) => setEditEvent({ ...editEvent, registrationLink: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Live Stream Link</label>
+              <Input
+                value={editEvent.liveStreamLink}
+                onChange={(e) => setEditEvent({ ...editEvent, liveStreamLink: e.target.value })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Banner Image</label>
+              <Input
+                type="file"
+                onChange={(e) => setEditEvent({ ...editEvent, banner: e.target.files?.[0] })}
+              />
+
+              <label className="text-sm font-medium text-gray-700">Status</label>
+              <Select
+                value={editEvent.status}
+                onValueChange={(value) => setEditEvent({ ...editEvent, status: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="ongoing">Ongoing</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+
+            </div>
+
+            {/* Footer */}
+            <div className="sticky bottom-0 bg-white p-4 border-t rounded-b-xl">
+              <Button className="w-full mt-1" onClick={handleSaveEdit}>
+                Save Changes
+              </Button>
+            </div>
+
           </div>
         </div>
       )}
+
+
+
       {/* -------------------- VIEW REGISTRATION MODAL -------------------- */}
       {showRegModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4 z-50">
